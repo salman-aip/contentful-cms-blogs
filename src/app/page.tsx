@@ -1,3 +1,4 @@
+import BlogsPage from "@/components/blogs";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return <main className="flex min-h-screen flex-col items-center justify-between p-24"></main>;
+  return (
+    <div className="mb-24">
+      <BlogsPage />
+    </div>
+  );
 }
