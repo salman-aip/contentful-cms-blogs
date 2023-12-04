@@ -46,7 +46,7 @@ export default async function BlogsPage() {
                       <div className="pt-10 lg:w-2/3 lg:flex-none lg:px-4 lg:pt-0">
                         <h2 className="font-display text-2xl font-semibold text-neutral-950">
                           <Link
-                            href={`/blog/${blog.sys.id}`}
+                            href={`/${blog.sys.id}`}
                             // as={`/blog/${blog.fields.blog_title}`}
                           >
                             {blog.fields.blog_title}
@@ -78,7 +78,7 @@ export default async function BlogsPage() {
                           {blog.fields.blog_sub_title}
                         </p>
                         <Button
-                          href={`blog/${blog.sys.id}`}
+                          href={`/${blog.sys.id}`}
                           aria-label={`Read more: ${blog.fileds?.blog_title}`}
                           className="mt-8"
                           // as={`/blog/${blog.fields.blog_title}`}

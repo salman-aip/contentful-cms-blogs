@@ -10,6 +10,7 @@ import { GridPattern } from "./GridPattern";
 import { Border } from "./Border";
 import { ArrowIcon } from "./IconArrow";
 import { SectionIntro } from "./SectionIntro";
+import { Button } from "./Button";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -40,6 +41,11 @@ export default async function BlogPage({ id }: blogProps) {
 
   return (
     <>
+      {/* back to home */}
+      <Link href={"/"} className="flex justify-center items-center pt-12">
+        <Button>Back to home</Button>
+      </Link>
+
       <Container as="article" className="mt-24 sm:mt-32 lg:mt-40">
         <FadeIn>
           <header className="mx-auto flex max-w-5xl flex-col text-center">
