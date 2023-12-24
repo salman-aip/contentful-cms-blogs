@@ -1,30 +1,44 @@
+"use client";
+
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/lib/contentful";
 
 import { PageIntro } from "./PageIntro";
+import { useEffect, useState } from "react";
 import { Container } from "./Container";
+import ReactPaginate from "react-paginate";
 import { FadeIn } from "./FadeIn";
 import { Border } from "./Border";
 import { Button } from "./Button";
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: "Blog",
   description:
     "Stay up-to-date with the latest industry news as our marketing teams finds new ways to re-purpose old CSS tricks articles.",
 };
 
-export default async function BlogsPage() {
-  let blogs: object[] = [];
+export default function BlogsPage() {
+  const [blogs, setBlogs] = useState([]);
+  const [pageNumber, setPageNumber] = useState(0);
+  const blogPerPage = 3;
+  const pagesVisited = pageNumber * blogPerPage;
+  const pageCount = Math.ceil(blogs.length / blogPerPage);
 
-  await client
-    .getEntries({
-      content_type: `${process.env.NEXT_PUBLIC_CONTENTFUL_CONTENT_TYPE_BLOG}`,
-    })
-    .then((res: any) => {
-      blogs = res.items;
-    });
+  useEffect(() => {
+    client
+      .getEntries({
+        content_type: `${process.env.NEXT_PUBLIC_CONTENTFUL_CONTENT_TYPE_BLOG}`,
+      })
+      .then((res: any) => {
+        setBlogs(res.items);
+      });
+  }, []);
+
+  const handleChangePage = ({ selected }: any) => {
+    setPageNumber(selected);
+  };
 
   return (
     <>
@@ -37,7 +51,7 @@ export default async function BlogsPage() {
 
       <Container className="mt-24 sm:mt-32 lg:mt-40">
         <div className="space-y-24 lg:space-y-32">
-          {blogs.map((blog: any, index: any) => {
+          {blogs.slice(pagesVisited, pagesVisited + blogPerPage).map((blog: any, index: any) => {
             return (
               <FadeIn key={index}>
                 <article>
@@ -93,6 +107,23 @@ export default async function BlogsPage() {
             );
           })}
         </div>
+
+        {/* pagination */}
+        {blogs?.length > 3 && (
+          <div className="mt-20">
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              pageCount={pageCount}
+              onPageChange={handleChangePage}
+              containerClassName="paginationBttns"
+              previousLinkClassName="previousBttn"
+              nextLinkClassName="nextBttn"
+              disabledClassName="paginationDisabled"
+              activeClassName="paginationActive"
+            />
+          </div>
+        )}
       </Container>
     </>
   );
